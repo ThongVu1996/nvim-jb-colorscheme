@@ -1,13 +1,15 @@
 " ====================================================================================
 " Vim Color File
 " URL:        https://github.com/devsjc/vim-jb
+" ====================================================================================
+" Vim Color File
+" URL:        https://github.com/YOUR_GITHUB_USERNAME/nvim-jb-colorscheme
 " Filename:   colors/jb.vim
-" Author:     devsjc
+" Author:     YOUR_NAME
 " License:    The MIT License (MIT)
-" Based On:   https://github.com/drewtempelmeyer/palenight.vim
 " ====================================================================================
 
-" === Initializaion ==================================================================
+" === Initialization ==================================================================
 
 highlight clear
 set cursorline
@@ -16,22 +18,39 @@ if exists("syntax_on")
   syntax reset
 endif
 
-" Define the xterm settings
-set t_Co=256
-let &t_Cs = "\e[4:3m"
-let &t_Ce = "\e[4:0m"
-
-let g:colors_name="jb"
+let g:colors_name = "jb"
 let g:jb_termcolors = 256
 
-let s:config = {}
-let s:colors = {}
+" Load config from Lua
+let s:config = get(g:, "jb_config", {})
+let s:colors = get(s:config, "colors", {})
+
+if empty(s:colors)
+  let s:colors = {
+    \ 'text': '#FFFFFF',
+    \ 'link': '#569CD6',
+    \ 'todo': '#FF0000',
+    \ 'comment': '#6A9955',
+    \ 'search': '#264F78',
+    \ 'folded': '#3B3B3B',
+    \ 'editor': '#1E1E1E',
+    \ 'number': '#B5CEA8',
+    \ 'string': '#CE9178',
+    \ 'keyword': '#C586C0',
+    \ 'function': '#DCDCAA',
+    \ 'const': '#4FC1FF',
+    \ 'type': '#569CD6',
+    \ 'tag': '#D7BA7D',
+    \ 'diffadd': '#587C0C',
+    \ 'diffmod': '#0C7D9D',
+    \ 'difftext': '#2F628E',
+    \ 'diffdel': '#A31515'
+  \ }
+endif
 
 " UI configuration
-if s:config.enable_unicode == 1
-  " Use box drawing characters for vertical split
+if get(s:config, "enable_unicode", 0) == 1
   set fillchars-=vert:\| | set fillchars+=vert:\│
-  " Use box drawing characters for gitgutter signs
   let g:gitgutter_sign_added = '┃'
   let g:gitgutter_sign_modified = '┃'
   let g:gitgutter_sign_removed = '┃'
@@ -39,8 +58,7 @@ if s:config.enable_unicode == 1
   let g:gitgutter_sign_removed_above_and_below = '╏'
   let g:gitgutter_sign_modified_removed = '┨'
 endif
-" Remove the tilde from the end of the buffer (ending whitespace required!)
-set fillchars-=eob:\~ | set fillchars+=eob:\ 
+ 
 
 
 " === FUNCTIONS =======================================================================

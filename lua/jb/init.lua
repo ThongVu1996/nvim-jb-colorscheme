@@ -8,13 +8,9 @@ M.setup = function(opts)
     vim.opt.termguicolors = true
   end
 
-  vim.g.jb_style = config.options.style
-  vim.g.jb_enable_italic = config.options.enable_italic and 1 or 0
-  vim.g.jb_enable_unicode = config.options.enable_unicode and 1 or 0
-
-  vim.schedule(function()
-    vim.cmd("colorscheme jb")
-  end)
+  vim.defer_fn(function()
+    pcall(vim.cmd, "colorscheme jb")
+  end, 100)
 end
 
 return M
